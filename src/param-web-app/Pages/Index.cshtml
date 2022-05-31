@@ -1,0 +1,28 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+  
+       <table>
+           <thead>
+               <tr>
+                   <th>Parameter</th>
+                   <th>Value</th>
+               </tr>
+           </thead>
+           <tbody>
+            @foreach(var i in Model.Ssm)
+            {
+                <tr>
+                    <td>@i.Key</td>
+                    <td>@i.Value</td>
+                </tr>                
+            }
+        </tbody>
+       </table>
+
+</div>
