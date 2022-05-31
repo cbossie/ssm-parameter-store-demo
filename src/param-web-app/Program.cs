@@ -1,3 +1,5 @@
+using Amazon.SecretsManager.Extensions.Caching;
+using Amazon.SecretsManager;
 using param_web_app;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +14,11 @@ builder.Configuration.AddSystemsManager("/demo-test");
 SsmModel ssm = new();
 builder.Configuration.Bind(ssm);
 builder.Services.AddSingleton(ssm);
+builder.Services.AddAWSService<IAmazonSecretsManager>();
+builder.Services.AddSingleton(new SecretsManagerCache(new SecretCacheConfiguration
+{
+    CacheItemTTL = 5000
+}));
 
 
 

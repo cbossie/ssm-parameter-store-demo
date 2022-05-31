@@ -1,6 +1,7 @@
 using Amazon.CDK;
 using Constructs;
 using Amazon.CDK.AWS.SSM;
+using Amazon.CDK.AWS.SecretsManager;
 
 
 
@@ -39,6 +40,14 @@ namespace SsmCdk
                 DataType = ParameterDataType.TEXT,
                 StringValue = "Earth"
             });
+
+            new Amazon.CDK.AWS.SecretsManager.Secret(this, "secret1", new SecretProps{
+                SecretName = "demo-test-secret",
+                SecretStringValue = new SecretValue("SuperSecret!!"),
+                Description = "Sample Secret Value"
+            });
+
+
 
         }
     }
