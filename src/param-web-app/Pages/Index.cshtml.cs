@@ -19,8 +19,6 @@ namespace param_web_app.Pages
             _smCache = smc;
         }
 
-
-
         public async Task OnGet()
         {
             SecretValue = (await _smCache.GetCachedSecret("demo-test-secret").GetSecretValue()).SecretString;

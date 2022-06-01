@@ -7,9 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
+builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
 
 // Add Systems Manager Parameter Store, and refresh every 5 seconds
-builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
 builder.Configuration.AddSystemsManager("/demo-test", TimeSpan.FromSeconds(5));
 
 // Add Secrets Manager caching and refresh every 5 seconds
