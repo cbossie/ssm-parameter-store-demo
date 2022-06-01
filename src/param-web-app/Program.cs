@@ -6,21 +6,23 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+
+// Add Systems Manager Parameter Store, and refresh every 5 seconds
 builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
+builder.Configuration.AddSystemsManager("/demo-test", TimeSpan.FromSeconds(5));
 
-builder.Configuration.AddSystemsManager("/demo-test");
-
-
-SsmModel ssm = new();
-builder.Configuration.Bind(ssm);
-builder.Services.AddSingleton(ssm);
+// Add Secrets Manager caching and refresh every 5 seconds
 builder.Services.AddAWSService<IAmazonSecretsManager>();
-builder.Services.AddSingleton(new SecretsManagerCache(new SecretCacheConfiguration
+builder.Services.AddSingleton(s => 
 {
-    CacheItemTTL = 5000
-}));
-
-
+    var sm = s.GetService<IAmazonSecretsManager>();
+    SecretsManagerCache cache = new(sm, new SecretCacheConfiguration
+    {
+        CacheItemTTL = 5000
+    });
+    return cache;
+});
 
 var app = builder.Build();
 

@@ -7,29 +7,23 @@ namespace param_web_app.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
-        public SsmModel Ssm { get; init; }
-        public IAmazonSecretsManager Sm { get; init; }
-        public string SecretValue { get; set; }
+        public SsmModel SsmData{ get; set; } = new SsmModel();
 
-        public IndexModel(SsmModel ssm, ILogger<IndexModel> logger, IAmazonSecretsManager sm)
+        private SecretsManagerCache _smCache;
+        public string? SecretValue { get; set; }
+
+        public IndexModel(IConfiguration config, SecretsManagerCache smc)
         {
-            _logger = logger;
-            Ssm = ssm;
-            Sm = sm;
+            // Load up the configuration from Systems Manager
+            config.Bind(SsmData);
+            _smCache = smc;
         }
 
 
 
         public async Task OnGet()
         {
-            var val = await Sm.GetSecretValueAsync(new Amazon.SecretsManager.Model.GetSecretValueRequest
-            {
-                SecretId = "demo-test-secret"
-            });
-
-            SecretValue = val.SecretString;
-
+            SecretValue = (await _smCache.GetCachedSecret("demo-test-secret").GetSecretValue()).SecretString;
         }
     }
 }
