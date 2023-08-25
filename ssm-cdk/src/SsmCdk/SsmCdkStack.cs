@@ -41,6 +41,13 @@ namespace SsmCdk
                 StringValue = "Earth"
             });
 
+            new Amazon.CDK.AWS.SSM.StringParameter(this, "param5", new StringParameterProps{
+                ParameterName = "/standaloneparameter",
+                Type = ParameterType.STRING,
+                DataType = ParameterDataType.TEXT,
+                StringValue = "SampleValue"
+            });
+
             new Amazon.CDK.AWS.SecretsManager.Secret(this, "secret1", new SecretProps{
                 SecretName = "demo-test-secret",
                 SecretStringValue = new SecretValue("SuperSecret!!"),
