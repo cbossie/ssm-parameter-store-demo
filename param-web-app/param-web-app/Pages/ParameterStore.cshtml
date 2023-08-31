@@ -1,12 +1,14 @@
 ﻿@page
-@model IndexModel
+@model ParameterStoreModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "SSM Data";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">Systems Manager Parameters</h1>
   
+    These are the current values of the SSM Parameters stored for this application.
+
        <table>
            <thead>
                <tr>
@@ -22,15 +24,6 @@
                     <td>@i.Value</td>
                 </tr>                
             }
-            <tr>
-                <td>Secret Value</td>
-                <td>@Model.SecretValue</td>
-            </tr>
-
         </tbody>
        </table>
-
-
-
-
 </div>
