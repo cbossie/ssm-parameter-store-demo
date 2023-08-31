@@ -1,5 +1,5 @@
 {
-  "app": "dotnet run --project src/SsmCdk/SsmCdk.csproj",
+  "app": "dotnet run --project src/DemoInfrastructure/DemoInfrastructure.csproj",
   "watch": {
     "include": [
       "**"

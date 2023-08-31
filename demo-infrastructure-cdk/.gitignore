@@ -2,6 +2,7 @@
 .cdk.staging
 cdk.out
 param.txt
+cdk.context.json
 # Created by https://www.gitignore.io/api/csharp
 
 ### Csharp ###
