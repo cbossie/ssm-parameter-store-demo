@@ -2,6 +2,7 @@ using Amazon.SecretsManager.Extensions.Caching;
 using Amazon.SecretsManager;
 using param_web_app;
 using param_web_app.Configuration;
+using Amazon.Extensions.Configuration.SystemsManager;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,12 +19,11 @@ builder.Services.AddSingleton(demoConfig);
 // Add Systems Manager Parameter Store parameters for the indicated path.
 // They will expire after the indicated time span. These are things
 // that could change at any time
-builder.Configuration.AddSystemsManager($"/{demoConfig.SsmPath}", TimeSpan.FromSeconds(demoConfig.SsmTimeToLive));
+builder.Configuration.AddSystemsManager($"/demo-infrastructure-{demoConfig.Environment}", TimeSpan.FromSeconds(demoConfig.SsmTimeToLive));
 
 // Add different path for "common" parameters, that don't need to expire.
 // Think of this like, "company name" or "current century"
-builder.Configuration.AddSystemsManager($"/{demoConfig.SsmPath}-common");
-
+builder.Configuration.AddSystemsManager($"/demo-infrastructure-{demoConfig.Environment}-common");
 
 // Add Secrets Manager caching client. This will cause secrets to expire after
 // the indicated number of milliseconds
@@ -33,8 +33,7 @@ builder.Services.AddSingleton(s =>
     var smClient = s.GetService<IAmazonSecretsManager>();
     SecretsManagerCache cache = new(smClient, new SecretCacheConfiguration
     {
-        CacheItemTTL = demoConfig.SecretsCacheExpiry,
-                
+        CacheItemTTL = demoConfig.SecretsCacheExpiry,                
     });
     return cache;
 });

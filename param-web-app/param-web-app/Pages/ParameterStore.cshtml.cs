@@ -11,7 +11,7 @@ namespace param_web_app.Pages
         public SsmModel SsmData{ get; set; } = new SsmModel();
 
 
-        public ParameterStoreModel(IConfiguration config, SecretsManagerCache smc)
+        public ParameterStoreModel(IConfiguration config)
         {
             // Load up the configuration from Systems Manager
             config.Bind(SsmData);
