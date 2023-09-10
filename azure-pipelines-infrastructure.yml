@@ -1,0 +1,39 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+- group: SecretsAndConfigDemoEnvironment-Stage
+
+steps:
+# Install NodeJS tools (so we have npm)
+- task: NodeTool@0
+  displayName: 'Install Node Tools'
+  inputs:
+    versionSource: 'spec'
+    versionSpec: '18.x'
+    checkLatest: true
+
+# Install the CDK Command Line
+- task: CmdLine@2
+  displayName: 'Install CDK'
+  inputs:
+    script: 'npm install -g aws-cdk'
+
+# Run the CDK
+- task: AWSShellScript@1
+  displayName: 'Deploy CDK Stack'
+  inputs:
+    awsCredentials: 'AWS-Dotnet-Ohio'
+    scriptType: 'inline'
+    inlineScript: |
+      cdk deploy --context ecrRepository=$(EcrRepository) --context stackPrefix=$(StackPrefix) --context account=$(Account) --context region=$(AWS.Region) --context
+    disableAutoCwd: true
+    workingDirectory: 'demo-infrastructure-cdk'
