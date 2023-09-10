@@ -16,9 +16,9 @@ steps:
     Dockerfile: '**/param-web-app/Dockerfile'
 
 # Step 2 - Deploy Container to ECR
-
-
-
+- task: CmdLine@2
+  inputs:
+    script: 'docker images'
 
 
 
