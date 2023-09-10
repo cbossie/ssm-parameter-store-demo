@@ -34,6 +34,6 @@ steps:
     awsCredentials: 'AWS-Dotnet-Ohio'
     scriptType: 'inline'
     inlineScript: |
-      cdk deploy --context ecrRepository=$(EcrRepository) --context stackPrefix=$(StackPrefix) --context account=$(Account) --context region=$(AWS.Region) --context
+      cdk deploy --context ecrRepository=$(EcrRepository) --context stackPrefix=$(StackPrefix) --context account=$(Account) --context region=$(AWS.Region)
     disableAutoCwd: true
     workingDirectory: 'demo-infrastructure-cdk'
