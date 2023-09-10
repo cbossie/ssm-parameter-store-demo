@@ -18,6 +18,7 @@ steps:
 # Step 1 - Docker Build the Visual Studio Project
 - task: Docker@2
   inputs:
+    repository: '$(EcrRepository)'
     command: 'build'
     Dockerfile: '**/param-web-app/Dockerfile'
 
