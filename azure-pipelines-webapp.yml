@@ -1,0 +1,36 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger: none
+
+pool:
+  vmImage: ubuntu-latest
+
+
+variables:
+- group: SecretsAndConfigDemoEnvironment-Stage
+
+steps:
+# Step 1 - Docker Build the Visual Studio Project
+- task: Docker@2
+  inputs:
+    repository: '$(EcrRepository)'
+    command: 'build'
+    Dockerfile: '**/param-web-app/Dockerfile'
+
+# Step 2 - Deploy Container to ECR
+- task: ECRPushImage@1
+  inputs:
+    awsCredentials: 'AWS-Dotnet-Ohio'
+    imageSource: 'imagename'
+    sourceImageName: '$(EcrRepository)'
+    sourceImageTag: '$(Build.BuildId)'
+    repositoryName: '$(EcrRepository)'
+
+
+
+
+
+
