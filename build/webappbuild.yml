@@ -12,7 +12,7 @@ steps:
   inputs:
     script: |
       pwd
-      ls
+      ls -la
 # Step 1 - Docker Build the Visual Studio Project
 - task: Docker@2
   inputs:
