@@ -1,8 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger: none
 
 pool:
@@ -11,28 +6,61 @@ pool:
 variables:
 - group: SecretsAndConfigDemoEnvironment-Stage
 
-steps:
-# Install NodeJS tools (so we have npm)
-- task: NodeTool@0
-  displayName: 'Install Node Tools'
-  inputs:
-    versionSource: 'spec'
-    versionSpec: '18.x'
-    checkLatest: true
-
-# Install the CDK Command Line
-- task: CmdLine@2
-  displayName: 'Install CDK'
-  inputs:
-    script: 'npm install -g aws-cdk'
-
-# Run the CDK Stack
-- task: AWSShellScript@1
-  displayName: 'Deploy CDK Stack'
-  inputs:
-    awsCredentials: 'AWS-Dotnet-Ohio'
-    scriptType: 'inline'
-    inlineScript: |
-      cdk deploy --require-approval never --context environmentName=$(Environment) --context ecrRepository=$(EcrRepository) --context stackPrefix=$(StackPrefix) --context account=$(Account) --context region=$(AWS.Region)
-    disableAutoCwd: true
-    workingDirectory: 'demo-infrastructure-cdk'
+stages:
+  - stage: DeployDev
+    displayName: Deploy Infrastructure to Dev Environment
+    jobs:
+    - deployment: DeployCdkDev
+      variables:
+      - group: SecretsAndConfigDemoEnvironment-Dev
+      environment: ssm-parameter-store-webapp-dev
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - checkout: self
+            - template: build/cdkdeploy.yml
+              parameters:
+                Environment: $(Environment)
+                EcrRepository: $(EcrRepository)
+                Account: $(Account)
+                Region: $(AWS.Region)
+                StackPrefix: $(StackPrefix)
+  - stage: DeployStage
+    displayName: Deploy Infrastructure to Staging Environment
+    jobs:
+    - deployment: DeployCdkStage
+      variables:
+      - group: SecretsAndConfigDemoEnvironment-Stage
+      environment: ssm-parameter-store-webapp-stg
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - checkout: self
+            - template: build/cdkdeploy.yml
+              parameters:
+                Environment: $(Environment)
+                EcrRepository: $(EcrRepository)
+                Account: $(Account)
+                Region: $(AWS.Region)
+                StackPrefix: $(StackPrefix)
+  - stage: DeployProd
+    displayName: Deploy Infrastructure to Production Environment
+    jobs:
+    - deployment: DeployCdkProd
+      variables:
+      - group: SecretsAndConfigDemoEnvironment-Prod
+      environment: ssm-parameter-store-webapp-prod
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - checkout: self
+            - template: build/cdkdeploy.yml
+              parameters:
+                Environment: $(Environment)
+                EcrRepository: $(EcrRepository)
+                Account: $(Account)
+                Region: $(AWS.Region)
+                StackPrefix: $(StackPrefix)
