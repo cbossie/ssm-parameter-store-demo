@@ -27,7 +27,7 @@ steps:
   inputs:
     script: 'npm install -g aws-cdk'
 
-# Run the CDK
+# Run the CDK Stack
 - task: AWSShellScript@1
   displayName: 'Deploy CDK Stack'
   inputs:
