@@ -1,0 +1,45 @@
+parameters:
+- name: Environment
+  type: string
+- name: EcrRepository
+  type: string
+- name: StackPrefix
+  type: string
+- name: Account
+  type: string
+- name: Region
+  type: string
+
+steps:
+# Install NodeJS tools (so we have npm)
+- task: NodeTool@0
+  displayName: 'Install Node Tools'
+  inputs:
+    versionSource: 'spec'
+    versionSpec: '18.x'
+    checkLatest: true
+
+# Install the CDK Command Line
+- task: CmdLine@2
+  displayName: 'Install CDK'
+  inputs:
+    script: 'npm install -g aws-cdk'
+
+# Run the CDK Stack
+- task: AWSShellScript@1
+  displayName: 'Deploy CDK Stack'
+  inputs:
+    awsCredentials: 'AWS-Dotnet-Ohio'
+    region: '${{ parameters.region }}'
+    scriptType: 'inline'
+    inlineScript: |
+      cdk deploy --require-approval never --context environmentName=${{ parameters.Environment }} --context ecrRepository=${{ parameters.EcrRepository }} --context stackPrefix=${{ parameters.StackPrefix }} --context account=${{ parameters.Account }} --context region=${{ parameters.Region }}
+    disableAutoCwd: true
+    workingDirectory: '$(Build.Repository.LocalPath)/demo-infrastructure-cdk'
+
+
+
+
+
+
+
