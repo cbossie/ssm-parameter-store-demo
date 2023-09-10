@@ -8,6 +8,12 @@ trigger: none
 pool:
   vmImage: ubuntu-latest
 
+
+variables:
+- group: SecretsAndConfigDemoEnvironment-Stage
+
+
+
 steps:
 # Step 1 - Docker Build the Visual Studio Project
 - task: Docker@2
