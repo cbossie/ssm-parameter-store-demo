@@ -8,10 +8,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["param-web-app/param-web-app.csproj", "param-web-app/"]
-RUN dotnet restore "param-web-app/param-web-app.csproj"
+COPY ["param-web-app.csproj", "./"]
+RUN dotnet restore "param-web-app.csproj"
 COPY . .
-WORKDIR "/src/param-web-app"
+WORKDIR "/src"
 RUN dotnet build "param-web-app.csproj" -c Release -o /app/build
 
 FROM build AS publish
