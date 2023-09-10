@@ -13,7 +13,7 @@ steps:
   inputs:
     repository: '${{ parameters.EcrRepository }}'
     command: 'build'
-    Dockerfile: '**/param-web-app/Dockerfile'
+    Dockerfile: '$(Build.Repository.LocalPath)/param-web-app/Dockerfile'
 
 # Step 2 - Deploy Container to ECR
 - task: ECRPushImage@1
