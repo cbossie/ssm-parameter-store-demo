@@ -23,6 +23,11 @@ stages:
   - stage: DeployStaging
     displayName: Deploy to Staging Environment
     jobs:
+    - job: Download
+      steps:
+      - task: CmdLine@2
+        inputs:
+          script: 'ls'
     - deployment: DeployStg
       variables:
       - group: SecretsAndConfigDemoEnvironment-Stage 
