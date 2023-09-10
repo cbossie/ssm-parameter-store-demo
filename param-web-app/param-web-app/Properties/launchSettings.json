@@ -1,18 +1,11 @@
 {
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:26587",
-      "sslPort": 44339
-    }
-  },
   "profiles": {
     "param_web_app": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ENVIRONMENT_NAME": "stg"
       },
       "applicationUrl": "https://localhost:7118;http://localhost:5118",
       "dotnetRunMessages": true
@@ -28,8 +21,19 @@
       "commandName": "Docker",
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "environmentVariables": {
+        "ENVIRONMENT_NAME": "stg"
+      },
       "publishAllPorts": true,
       "useSSL": true
+    }
+  },
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:26587",
+      "sslPort": 44339
     }
   }
 }

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace DemoInfrastructure.Constructs
 {
-    public class SsmParameterConstructProps
+    public class SsmParameterConstructProps : ConstructPropsBase
     {
-        public string EnvironmentPostFix { get; set; }
+        public string ParameterPath => "demo-infrastructure" + (string.IsNullOrWhiteSpace(EnvironmentPostFix) ? string.Empty : $"-{EnvironmentPostFix}");
     }
 }

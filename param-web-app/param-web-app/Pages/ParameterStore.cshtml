@@ -6,12 +6,15 @@
 
 <h1 class="display-4">Systems Manager Parameters Store Test</h1>
 
-<strong>These are the current values of the SSM Parameters stored for this application:</strong>
+<p>These are the current values of the SSM Parameters stored for this application:</p>
+
+<p>Parameters will be loaded after  <strong>@Model.DemoConfig.SsmTimeToLive</strong> seconds.</p>
+
+<p>Therefore all parameter subject to a TTL will be reloaded after that time period.</p>
 
 <div class="text-center">
 
   <div class="container">
-
 
        <table class="table">
            <thead>

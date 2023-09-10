@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace DemoInfrastructure.Constructs
 {
-    public class SecretsManagerConstructProps
+    public class SecretsManagerConstructProps : ConstructPropsBase
     {
-        public string EnvironmentPostFix { get; set; }
+
     }
 }

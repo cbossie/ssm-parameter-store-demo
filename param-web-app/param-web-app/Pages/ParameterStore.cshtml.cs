@@ -9,17 +9,19 @@ namespace param_web_app.Pages
     public class ParameterStoreModel : PageModel
     {
         public SsmModel SsmData{ get; set; } = new SsmModel();
-
-
-        public ParameterStoreModel(IConfiguration config)
+        public DemoConfiguration DemoConfig { get; set; }
+        private ILogger Logger { get; }
+        public ParameterStoreModel(IConfiguration config, DemoConfiguration demoConfig, ILogger<ParameterStoreModel> logger)
         {
             // Load up the configuration from Systems Manager
             config.Bind(SsmData);
+            DemoConfig = demoConfig;
+            Logger = logger;
         }
 
         public async Task OnGet()
         {
-            
+            Logger.LogInformation("Opening Parameter Store Page");
         }
     }
 }
