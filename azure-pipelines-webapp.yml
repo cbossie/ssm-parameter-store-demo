@@ -11,6 +11,13 @@ stages:
 - stage: DeployDevelopment
   displayName: Deploy to Development Environment
   jobs:
+  - job: TestJob
+    steps:
+      - task: CmdLine@2
+        inputs:
+          script: |
+            pwd
+            ls -la
   - deployment: DeployDev
     variables:
     - group: SecretsAndConfigDemoEnvironment-Dev 
