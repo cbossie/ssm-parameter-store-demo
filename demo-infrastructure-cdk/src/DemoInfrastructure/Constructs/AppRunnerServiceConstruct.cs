@@ -80,6 +80,7 @@ public class AppRunnerServiceConstruct : DemoConstructBase
 
         // Grant acces to the the ECR Repo for App Runner Service
         ecrRepository.GrantPull(svc);
+        ecrRepository.GrantRead(svc);
      }
 
 
