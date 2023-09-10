@@ -26,7 +26,7 @@ builder.Configuration.Bind("DemoConfig", demoConfig);
 // If you are running this in AppRunner, the environmet will supplied via environment variable.
 // Everything else is 
 var envName = Environment.GetEnvironmentVariable("ENVIRONMENT_NAME");
-if(!string.IsNullOrEmpty(envName))
+if (!string.IsNullOrEmpty(envName))
 {
     demoConfig.Environment = envName;
 }
@@ -38,7 +38,10 @@ builder.Services.AddSingleton(demoConfig);
 // that could change at any time
 builder.Configuration.AddSystemsManager($"/demo-infrastructure-{demoConfig.Environment}", TimeSpan.FromSeconds(demoConfig.SsmTimeToLive));
 
+// This parameter processor allows you to intercept calls to the SSM parameter store
 var parameterProcessor = new DemoParameterProcessor();
+
+// This is the long form to add systems manager
 builder.Configuration.AddSystemsManager(configSource =>
 {
     configSource.Path = $"/demo-infrastructure-{demoConfig.Environment}";
@@ -50,14 +53,11 @@ builder.Configuration.AddSystemsManager(configSource =>
 // Think of this like, "company name" or "current century"
 builder.Configuration.AddSystemsManager($"/demo-infrastructure-{demoConfig.Environment}-common");
 
-
-
 // Add Secrets Manager caching client. This will cause secrets to expire after
 // the indicated number of milliseconds
-
-
-
 builder.Services.AddAWSService<IAmazonSecretsManager>();
+
+// The cache hook object allows you to write code when you retrieve something from Secrets manager or when the cache is refreshed
 builder.Services.AddSingleton<ISecretCacheHook, DemoSecretCacheHook>();
 builder.Services.AddSingleton(s => 
 {
@@ -84,13 +84,7 @@ if (!app.Environment.IsDevelopment())
 
     app.UseHsts();
 
-
-
-
-
 }
-
-// app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 
