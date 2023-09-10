@@ -8,61 +8,50 @@ pool:
 # - group: SecretsAndConfigDemoEnvironment-Stage
 
 stages:
-- stage: DeployDevelopment
-  displayName: Deploy to Development Environment
-  jobs:
-  - job: TestJob
-    steps:
-      - task: CmdLine@2
-        inputs:
-          script: |
-            pwd
-            ls -la
-  - deployment: DeployDev
+  - stage: DeployDev
     variables:
     - group: SecretsAndConfigDemoEnvironment-Dev 
-    environment: ssm-parameter-store-webapp-dev
-    strategy:
-      runOnce:
-        deploy:
-          steps:
+    jobs:
+      - job: DeployDev
+        steps:
           - template: build/webappbuild.yml
             parameters:
               EcrRepository: $(EcrRepository)
               BuildId: $(Build.BuildId)
               region: $(AWS.Region)
-- stage: DeployStaging
-  displayName: Deploy to Staging Environment
-  jobs:
-  - deployment: DeployStg
-    variables:
-    - group: SecretsAndConfigDemoEnvironment-Stage 
-    environment: ssm-parameter-store-webapp-stg
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: build/webappbuild.yml
-            parameters:
-              EcrRepository: $(EcrRepository)
-              BuildId: $(Build.BuildId)
-              region: $(AWS.Region)
-- stage: DeployProduction
-  displayName: Deploy to Production Environment
-  jobs:
-  - deployment: DeployProd
-    variables:
-    - group: SecretsAndConfigDemoEnvironment-Prod
-    environment: ssm-parameter-store-webapp-prod
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: build/webappbuild.yml
-            parameters:
-              EcrRepository: $(EcrRepository)
-              BuildId: $(Build.BuildId)
-              region: $(AWS.Region)
+
+# - stage: DeployStaging
+#   displayName: Deploy to Staging Environment
+#   jobs:
+#   - deployment: DeployStg
+#     variables:
+#     - group: SecretsAndConfigDemoEnvironment-Stage 
+#     environment: ssm-parameter-store-webapp-stg
+#     strategy:
+#       runOnce:
+#         deploy:
+#           steps:
+#           - template: build/webappbuild.yml
+#             parameters:
+#               EcrRepository: $(EcrRepository)
+#               BuildId: $(Build.BuildId)
+#               region: $(AWS.Region)
+# - stage: DeployProduction
+#   displayName: Deploy to Production Environment
+#   jobs:
+#   - deployment: DeployProd
+#     variables:
+#     - group: SecretsAndConfigDemoEnvironment-Prod
+#     environment: ssm-parameter-store-webapp-prod
+#     strategy:
+#       runOnce:
+#         deploy:
+#           steps:
+#           - template: build/webappbuild.yml
+#             parameters:
+#               EcrRepository: $(EcrRepository)
+#               BuildId: $(Build.BuildId)
+#               region: $(AWS.Region)
   
 
 
