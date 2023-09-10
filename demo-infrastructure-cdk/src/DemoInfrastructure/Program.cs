@@ -12,14 +12,19 @@ namespace DemoInfrastructure
         public static void Main(string[] args)
         {
             var app = new App();
+            string ecrRepositoryName = app.Node.TryGetContext("ecrRepository")?.ToString();
+
             string environmentPostfix = $"{app.Node.TryGetContext("environmentName")}" ?? "dev";
-            
-            
-            string stackName = $"DemoInfrastructureStack-{environmentPostfix}";
+            string stackPrefix = $"{app.Node.TryGetContext("stackPrefix")}" ?? "DemoInfrastructureStack";
+
+            string stackName = $"{stackPrefix}-{environmentPostfix}";
+
             string account = $"{app.Node.TryGetContext("account")}";
             string region = $"{app.Node.TryGetContext("region")}";
-            _ = new DemoInfrastructureStack(app, "DemoInfrastructureStack", new DemoInfrastructureStackProps
+            _ = new DemoInfrastructureStack(app, stackName, new DemoInfrastructureStackProps
             {
+                CreateAppRunner = ecrRepositoryName != null,
+                EcrRepository = ecrRepositoryName,
                 StackName = stackName,
                 EnvironmentPostfix = environmentPostfix,
                 Env = MakeEnv(account, region)

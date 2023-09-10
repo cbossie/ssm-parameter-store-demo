@@ -1,0 +1,9 @@
+
+{
+    "region" : "us-east-2",
+    "profile" : "dotnet-ohio",
+    "configuration" : "Release",
+    "image-tag"     : "param-web-app-stg:latest",
+    "docker-build-working-dir" : "",
+    "vstoolkit-deployment-mode" : "PushOnly"
+}

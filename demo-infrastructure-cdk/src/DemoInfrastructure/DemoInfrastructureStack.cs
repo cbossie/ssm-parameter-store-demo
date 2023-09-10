@@ -1,8 +1,3 @@
-using Amazon.CDK;
-using Constructs;
-using Amazon.CDK.AWS.SSM;
-using Amazon.CDK.AWS.SecretsManager;
-using DemoInfrastructure;
 using DemoInfrastructure.Constructs;
 
 namespace DemoInfrastructure
@@ -15,16 +10,27 @@ namespace DemoInfrastructure
         {
             EnvironmentPostfix = props.EnvironmentPostfix;
             // Create SSM Parameters
-            _ = new SsmParameterConstruct(this, "ssmParameters", new SsmParameterConstructProps
+            var parameters = new SsmParameterConstruct(this, "ssmParameters", new SsmParameterConstructProps
             {
                 EnvironmentPostFix = EnvironmentPostfix
             });
 
             // Create Secrets Manager Values
-            _ = new SecretsManagerConstruct(this, "secrets", new SecretsManagerConstructProps
+            var secrets = new SecretsManagerConstruct(this, "secrets", new SecretsManagerConstructProps
             {
                 EnvironmentPostFix = EnvironmentPostfix
             });
+
+            // Create AppRunnerService
+            var appRunner = new AppRunnerServiceConstruct(this, "apprunner", new AppRunnerConstructProps
+            {
+                EcrRepositoryName = props.EcrRepository,
+                EnvironmentPostFix = EnvironmentPostfix,
+                Secrets = secrets,
+                Parameters = parameters,
+                ParameterPathPrefix = parameters.ParameterPath
+            });
+
         }
     }
 }

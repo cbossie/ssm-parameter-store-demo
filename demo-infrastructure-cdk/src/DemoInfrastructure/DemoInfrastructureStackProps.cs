@@ -9,6 +9,8 @@ namespace DemoInfrastructure
 {
     public class DemoInfrastructureStackProps : StackProps
     {
+        public bool CreateAppRunner { get; set; }
+        public string EcrRepository { get; set; }
         public string EnvironmentPostfix { get; set; }
     }
 }

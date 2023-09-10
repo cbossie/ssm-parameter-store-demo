@@ -1,9 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34003.232
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoInfrastructure", "DemoInfrastructure\DemoInfrastructure.csproj", "{2355E9C8-A2B9-46AA-8090-EB07C6086123}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoInfrastructure", "DemoInfrastructure\DemoInfrastructure.csproj", "{2355E9C8-A2B9-46AA-8090-EB07C6086123}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CdkAssets", "CdkAssets", "{FE801617-F6DF-4AAD-9A9C-526B52A9CE6B}"
+	ProjectSection(SolutionItems) = preProject
+		..\cdk.context.json = ..\cdk.context.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,9 +18,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{2355E9C8-A2B9-46AA-8090-EB07C6086123}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -30,5 +32,11 @@ Global
 		{2355E9C8-A2B9-46AA-8090-EB07C6086123}.Release|x64.Build.0 = Release|Any CPU
 		{2355E9C8-A2B9-46AA-8090-EB07C6086123}.Release|x86.ActiveCfg = Release|Any CPU
 		{2355E9C8-A2B9-46AA-8090-EB07C6086123}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A1BA0EBE-44FC-4FB6-85E5-4729B0ECF33A}
 	EndGlobalSection
 EndGlobal

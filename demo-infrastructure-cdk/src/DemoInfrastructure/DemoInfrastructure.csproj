@@ -1,20 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <!-- Roll forward to future major versions of the netcoreapp as needed -->
     <RollForward>Major</RollForward>
   </PropertyGroup>
-
   <ItemGroup>
     <!-- CDK Construct Library dependencies -->
-    <PackageReference Include="Amazon.CDK.Lib" Version="2.26.0" />
-    <PackageReference Include="Constructs" Version="[10.0.0,11.0.0)" />
-
+    <PackageReference Include="Amazon.CDK.AWS.AppRunner.Alpha" Version="2.95.1-alpha.0" />
+    <PackageReference Include="Amazon.CDK.Lib" Version="2.95.1" />
+    <PackageReference Include="Constructs" Version="10.2.70" />
     <!-- jsii Roslyn analyzers (un-comment to obtain compile-time checks for missing required props
     <PackageReference Include="Amazon.Jsii.Analyzers" Version="*" PrivateAssets="all" />
     -->
+    <Content Include="Constructs\SecretsManagerConstruct.cs" />
+    <Content Include="DemoInfrastructureStack.cs" />
+    <Content Include="Program.cs" />
+    <Content Include="Constructs\SsmParameterConstruct.cs" />
+    <Content Include="Constructs\SecretsManagerConstructProps.cs" />
+    <Content Include="Constructs\SsmParameterConstructProps.cs" />
+    <Content Include="Constructs\AppRunnerConstructProps.cs" />
+    <Content Include="Constructs\DemoConstructBase.cs" />
   </ItemGroup>
-
 </Project>
