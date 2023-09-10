@@ -4,26 +4,59 @@ pool:
   vmImage: ubuntu-latest
 
 
-variables:
-- group: SecretsAndConfigDemoEnvironment-Stage
+# variables:
+# - group: SecretsAndConfigDemoEnvironment-Stage
 
-steps:
-# Step 1 - Docker Build the Visual Studio Project
-- task: Docker@2
-  inputs:
-    repository: '$(EcrRepository)'
-    command: 'build'
-    Dockerfile: '**/param-web-app/Dockerfile'
-
-# Step 2 - Deploy Container to ECR
-- task: ECRPushImage@1
-  inputs:
-    awsCredentials: 'AWS-Dotnet-Ohio'
-    imageSource: 'imagename'
-    sourceImageName: '$(EcrRepository)'
-    sourceImageTag: '$(Build.BuildId)'
-    repositoryName: '$(EcrRepository)'
-
+stages:
+- stage: DeployDevelopment
+  displayName: Deploy to Development Environment
+  jobs:
+  - deployment: DeployDev
+    variables:
+    - group: SecretsAndConfigDemoEnvironment-Dev 
+    environment: ssm-parameter-store-webapp-dev
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: build/webappbuild.yml
+            parameters:
+              EcrRepository: $(EcrRepository)
+              BuildId: $(Build.BuildId)
+              region: $(AWS.Region)
+- stage: DeployStaging
+  displayName: Deploy to Staging Environment
+  jobs:
+  - deployment: DeployStg
+    variables:
+    - group: SecretsAndConfigDemoEnvironment-Stg 
+    environment: ssm-parameter-store-webapp-stg
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: build/webappbuild.yml
+            parameters:
+              EcrRepository: $(EcrRepository)
+              BuildId: $(Build.BuildId)
+              region: $(AWS.Region)
+- stage: DeployProduction
+  displayName: Deploy to Production Environment
+  jobs:
+  - deployment: DeployProd
+    variables:
+    - group: SecretsAndConfigDemoEnvironment-Prod
+    environment: ssm-parameter-store-webapp-prod
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: build/webappbuild.yml
+            parameters:
+              EcrRepository: $(EcrRepository)
+              BuildId: $(Build.BuildId)
+              region: $(AWS.Region)
+  
 
 
 
