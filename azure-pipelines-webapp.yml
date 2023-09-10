@@ -9,25 +9,26 @@ pool:
 
 stages:
   - stage: DeployDev
-    variables:
-    - group: SecretsAndConfigDemoEnvironment-Dev 
+    displayName: Deploy to Dev Environment
     jobs:
-      - job: DeployDev
-        steps:
-          - template: build/webappbuild.yml
-            parameters:
-              EcrRepository: $(EcrRepository)
-              BuildId: $(Build.BuildId)
-              region: $(AWS.Region)
+    - deployment: DeployDev
+      variables:
+      - group: SecretsAndConfigDemoEnvironment-Dev
+      environment: ssm-parameter-store-webapp-dev
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - checkout: self
+            - template: build/webappbuild.yml
+              parameters:
+                EcrRepository: $(EcrRepository)
+                BuildId: $(Build.BuildId)
+                region: $(AWS.Region)
 
   - stage: DeployStaging
     displayName: Deploy to Staging Environment
     jobs:
-    - job: Download
-      steps:
-      - task: CmdLine@2
-        inputs:
-          script: 'ls'
     - deployment: DeployStg
       variables:
       - group: SecretsAndConfigDemoEnvironment-Stage 
@@ -36,6 +37,7 @@ stages:
         runOnce:
           deploy:
             steps:
+            - checkout: self
             - template: build/webappbuild.yml
               parameters:
                 EcrRepository: $(EcrRepository)
