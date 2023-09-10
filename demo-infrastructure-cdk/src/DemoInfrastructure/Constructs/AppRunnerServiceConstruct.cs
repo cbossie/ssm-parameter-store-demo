@@ -29,6 +29,7 @@ public class AppRunnerServiceConstruct : DemoConstructBase
         // Create Role for accessing the repo
         Role appRunnerServiceAccessRole = new(this, "apprunnerAccessRole", new RoleProps
         {
+            RoleName = $"DemoInfrastructureAccessRole-{props.EnvironmentPostFix}",
             AssumedBy = new ServicePrincipal("build.apprunner.amazonaws.com"),
             Description = "AppRunner Access Role"
         });
