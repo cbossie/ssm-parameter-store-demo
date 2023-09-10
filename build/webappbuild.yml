@@ -8,11 +8,6 @@ parameters:
 
 
 steps:
-- task: CmdLine@2
-  inputs:
-    script: |
-      pwd
-      ls -la
 # Step 1 - Docker Build the Visual Studio Project
 - task: Docker@2
   inputs:
