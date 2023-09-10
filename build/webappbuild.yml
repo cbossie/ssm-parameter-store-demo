@@ -5,6 +5,8 @@ parameters:
   type: string
 - name: region
   type: string
+- name: AWSCredential
+  type: string
 
 
 steps:
@@ -18,7 +20,7 @@ steps:
 # Step 2 - Deploy Container to ECR
 - task: ECRPushImage@1
   inputs:
-    awsCredentials: 'AWS-Dotnet-Ohio'
+    awsCredentials: '${{ parameters.AWSCredential }}'
     region: '${{ parameters.region }}'
     imageSource: 'imagename'
     sourceImageName: '${{ parameters.EcrRepository }}'

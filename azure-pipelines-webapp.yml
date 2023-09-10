@@ -20,6 +20,7 @@ stages:
                 EcrRepository: $(EcrRepository)
                 BuildId: $(Build.BuildId)
                 region: $(AWS.Region)
+                AWSCredential: 'AWS-Dotnet-Ohio'
 
   - stage: DeployStaging
     displayName: Deploy to Staging Environment
@@ -38,6 +39,7 @@ stages:
                 EcrRepository: $(EcrRepository)
                 BuildId: $(Build.BuildId)
                 region: $(AWS.Region)
+                AWSCredential: 'AWS-Dotnet-Ohio'                
   - stage: DeployProduction
     displayName: Deploy to Production Environment
     jobs:
@@ -55,7 +57,7 @@ stages:
                 EcrRepository: $(EcrRepository)
                 BuildId: $(Build.BuildId)
                 region: $(AWS.Region)
-  
+                AWSCredential: 'AWS-Dotnet-Ohio'  
 
 
 
