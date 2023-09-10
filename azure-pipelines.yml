@@ -12,8 +12,6 @@ pool:
 variables:
 - group: SecretsAndConfigDemoEnvironment-Stage
 
-
-
 steps:
 # Step 1 - Docker Build the Visual Studio Project
 - task: Docker@2
@@ -23,10 +21,13 @@ steps:
     Dockerfile: '**/param-web-app/Dockerfile'
 
 # Step 2 - Deploy Container to ECR
-- task: CmdLine@2
+- task: ECRPushImage@1
   inputs:
-    script: 'docker images'
-
+    awsCredentials: 'AWS-Dotnet-Ohio'
+    imageSource: 'imagename'
+    sourceImageName: '$(EcrRepository)'
+    sourceImageTag: '$(Build.BuildId)'
+    repositoryName: '$(EcrRepository)'
 
 
 
