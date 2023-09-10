@@ -43,22 +43,23 @@ stages:
                 EcrRepository: $(EcrRepository)
                 BuildId: $(Build.BuildId)
                 region: $(AWS.Region)
-# - stage: DeployProduction
-#   displayName: Deploy to Production Environment
-#   jobs:
-#   - deployment: DeployProd
-#     variables:
-#     - group: SecretsAndConfigDemoEnvironment-Prod
-#     environment: ssm-parameter-store-webapp-prod
-#     strategy:
-#       runOnce:
-#         deploy:
-#           steps:
-#           - template: build/webappbuild.yml
-#             parameters:
-#               EcrRepository: $(EcrRepository)
-#               BuildId: $(Build.BuildId)
-#               region: $(AWS.Region)
+  - stage: DeployProduction
+    displayName: Deploy to Production Environment
+    jobs:
+    - deployment: DeployProd
+      variables:
+      - group: SecretsAndConfigDemoEnvironment-Prod
+      environment: ssm-parameter-store-webapp-prod
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - checkout: self
+            - template: build/webappbuild.yml
+              parameters:
+                EcrRepository: $(EcrRepository)
+                BuildId: $(Build.BuildId)
+                region: $(AWS.Region)
   
 
 
