@@ -36,7 +36,6 @@ builder.Services.AddSingleton(demoConfig);
 // Add Systems Manager Parameter Store parameters for the indicated path.
 // They will expire after the indicated time span. These are things
 // that could change at any time
-builder.Configuration.AddSystemsManager($"/demo-infrastructure-{demoConfig.Environment}", TimeSpan.FromSeconds(demoConfig.SsmTimeToLive));
 
 // This parameter processor allows you to intercept calls to the SSM parameter store
 var parameterProcessor = new DemoParameterProcessor();
@@ -51,7 +50,8 @@ builder.Configuration.AddSystemsManager(configSource =>
 
 // Add different path for "common" parameters, that don't need to expire.
 // Think of this like, "company name" or "current century"
-builder.Configuration.AddSystemsManager($"/demo-infrastructure-{demoConfig.Environment}-common");
+builder.Configuration.AddSystemsManager($"/demo-infrastructure-{demoConfig.Environment}/common");
+
 
 // Add Secrets Manager caching client. This will cause secrets to expire after
 // the indicated number of milliseconds

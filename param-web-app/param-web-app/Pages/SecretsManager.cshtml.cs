@@ -27,6 +27,7 @@ namespace param_web_app.Pages
         public async Task OnGet()
         {
             Logger.LogInformation("Opening Parameter Store Page");
+
             // Retrieve the two secret strings. If they are not there, then they will be retrieved from the
             // Secrets manager Service. Otherwise they will come from the cache.
             LaunchCode = await SmCache.GetSecretString($"launchcode-secret-{DemoConfig.Environment}");

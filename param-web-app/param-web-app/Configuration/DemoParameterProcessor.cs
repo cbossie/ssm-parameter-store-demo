@@ -11,7 +11,7 @@ public class DemoParameterProcessor : IParameterProcessor
     public string GetKey(Parameter parameter, string path)
     {
         LogOperation(parameter, path);
-        return parameter.Name;
+        return parameter.Name.Split('/').LastOrDefault() ?? parameter.Name;
     }
 
     public string GetValue(Parameter parameter, string path)
