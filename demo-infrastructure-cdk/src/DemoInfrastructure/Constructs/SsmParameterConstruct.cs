@@ -53,7 +53,7 @@ public class SsmParameterConstruct : DemoConstructBase, IEnumerable<StringParame
 
         var param5 = new StringParameter(this, "commonsystemparam", new StringParameterProps
         {
-            ParameterName = $"/{ParameterPath}-common/systemparameter",
+            ParameterName = $"/{ParameterPath}/common/systemparameter",
             DataType = ParameterDataType.TEXT,
             StringValue = "SampleValue"
         });
