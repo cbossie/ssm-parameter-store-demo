@@ -6,6 +6,12 @@ pool:
 variables:
 - group: SecretsAndConfigDemoEnvironment-Stage
 
+resources:
+  repositories:
+    - repository: PipelineTemplates
+      type: git
+      name: CDKProjects/PipelineTemplates
+
 stages:
   - stage: DeployDev
     displayName: Deploy Infrastructure to Dev Environment
@@ -19,13 +25,15 @@ stages:
           deploy:
             steps:
             - checkout: self
-            - template: build/cdkdeploy.yml
+              path: cdk
+            - template: build/cdkdeploy.yml@PipelineTemplates
               parameters:
                 Environment: $(Environment)
                 EcrRepository: $(EcrRepository)
                 Account: $(Account)
                 Region: $(AWS.Region)
                 StackPrefix: $(StackPrefix)
+                WorkingDirectory: $(Agent.BuildDirectory)/cdk/demo-infrastructure-cdk
   - stage: DeployStage
     displayName: Deploy Infrastructure to Staging Environment
     jobs:
@@ -38,13 +46,15 @@ stages:
           deploy:
             steps:
             - checkout: self
-            - template: build/cdkdeploy.yml
+              path: cdk
+            - template: build/cdkdeploy.yml@PipelineTemplates
               parameters:
                 Environment: $(Environment)
                 EcrRepository: $(EcrRepository)
                 Account: $(Account)
                 Region: $(AWS.Region)
                 StackPrefix: $(StackPrefix)
+                WorkingDirectory: $(Agent.BuildDirectory)/cdk/demo-infrastructure-cdk            
   - stage: DeployProd
     displayName: Deploy Infrastructure to Production Environment
     jobs:
@@ -57,10 +67,12 @@ stages:
           deploy:
             steps:
             - checkout: self
-            - template: build/cdkdeploy.yml
+              path: cdk
+            - template: build/cdkdeploy.yml@PipelineTemplates
               parameters:
                 Environment: $(Environment)
                 EcrRepository: $(EcrRepository)
                 Account: $(Account)
                 Region: $(AWS.Region)
                 StackPrefix: $(StackPrefix)
+                WorkingDirectory: $(Agent.BuildDirectory)/cdk/demo-infrastructure-cdk               
