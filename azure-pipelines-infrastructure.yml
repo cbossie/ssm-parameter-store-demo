@@ -33,7 +33,7 @@ stages:
                 Account: $(Account)
                 Region: $(AWS.Region)
                 StackPrefix: $(StackPrefix)
-                WorkingDirectory: $(Agent.BuildDirectory)/cdk
+                WorkingDirectory: $(Agent.BuildDirectory)/cdk/
   - stage: DeployStage
     displayName: Deploy Infrastructure to Staging Environment
     jobs:
@@ -54,7 +54,7 @@ stages:
                 Account: $(Account)
                 Region: $(AWS.Region)
                 StackPrefix: $(StackPrefix)
-                WorkingDirectory: $(Agent.BuildDirectory)/cdk                
+                WorkingDirectory: $(Agent.BuildDirectory)/cdk/            
   - stage: DeployProd
     displayName: Deploy Infrastructure to Production Environment
     jobs:
@@ -75,4 +75,4 @@ stages:
                 Account: $(Account)
                 Region: $(AWS.Region)
                 StackPrefix: $(StackPrefix)
-                WorkingDirectory: $(Agent.BuildDirectory)/cdk                
+                WorkingDirectory: $(Agent.BuildDirectory)/cdk/                
