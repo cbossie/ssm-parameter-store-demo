@@ -26,7 +26,7 @@ stages:
               path: webapp
             - checkout: BuildTemplates
               path: templates
-            - template: $(Agent.BuildDirectory)/templates/build/webappbuild.yml
+            - template: '$(Agent.BuildDirectory)/templates/build/webappbuild.yml'
               parameters:
                 EcrRepository: $(EcrRepository)
                 BuildId: $(Build.BuildId)
