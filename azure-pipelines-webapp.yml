@@ -2,7 +2,7 @@ trigger: none
 
 resources:
   repositories:
-    - repository: BuildTemplates
+    - repository: PipelineTemplates
       type: git
       name: CDKProjects/PipelineTemplates
 
@@ -22,7 +22,7 @@ stages:
         runOnce:
           deploy:
             steps:
-            - checkout: BuildTemplates
+            - checkout: PipelineTemplates
               path: templates            
             - checkout: self
               path: webapp
