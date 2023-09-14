@@ -21,13 +21,10 @@ stages:
       strategy:
         runOnce:
           deploy:
-            steps:
-            - checkout: PipelineTemplates
-              path: templates            
+            steps:    
             - checkout: self
               path: webapp
-            - template: templates/build/webappbuild.yml
-
+            - template: build/webappbuild.yml@PipelineTemplates
               parameters:
                 EcrRepository: $(EcrRepository)
                 BuildId: $(Build.BuildId)
