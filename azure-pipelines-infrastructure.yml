@@ -26,9 +26,6 @@ stages:
             steps:
             - checkout: self
               path: cdk
-            - task: CmdLine@2
-              inputs:
-                script: 'ls $(Agent.BuildDirectory)/cdk'
             - template: build/cdkdeploy.yml@PipelineTemplates
               parameters:
                 Environment: $(Environment)
@@ -36,7 +33,7 @@ stages:
                 Account: $(Account)
                 Region: $(AWS.Region)
                 StackPrefix: $(StackPrefix)
-                WorkingDirectory: $(Agent.BuildDirectory)/cdk/
+                WorkingDirectory: $(Agent.BuildDirectory)/cdk/demo-infrastructure-cdk
   - stage: DeployStage
     displayName: Deploy Infrastructure to Staging Environment
     jobs:
@@ -57,7 +54,7 @@ stages:
                 Account: $(Account)
                 Region: $(AWS.Region)
                 StackPrefix: $(StackPrefix)
-                WorkingDirectory: $(Agent.BuildDirectory)/cdk/            
+                WorkingDirectory: $(Agent.BuildDirectory)/cdk/demo-infrastructure-cdk            
   - stage: DeployProd
     displayName: Deploy Infrastructure to Production Environment
     jobs:
@@ -78,4 +75,4 @@ stages:
                 Account: $(Account)
                 Region: $(AWS.Region)
                 StackPrefix: $(StackPrefix)
-                WorkingDirectory: $(Agent.BuildDirectory)/cdk/                
+                WorkingDirectory: $(Agent.BuildDirectory)/cdk/demo-infrastructure-cdk               
