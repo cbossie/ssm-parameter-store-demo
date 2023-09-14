@@ -1,5 +1,13 @@
 trigger: none
 
+resources:
+  repositories:
+    - repository: BuildTemplates
+      type: git
+      name: CDKProjects/PipelineTemplates
+
+
+
 pool:
   vmImage: ubuntu-latest
 stages:
@@ -15,49 +23,53 @@ stages:
           deploy:
             steps:
             - checkout: self
-            - template: build/webappbuild.yml
+              path: webapp
+            - checkout: BuildTemplates
+              path: templates
+            - template: $(Agent.BuildDirectory)/templates/build/webappbuild.yml
               parameters:
                 EcrRepository: $(EcrRepository)
                 BuildId: $(Build.BuildId)
                 region: $(AWS.Region)
-                AWSCredential: 'AWS-Dotnet-Ohio'
+                AWSCredential: 'AWS-Dotnet-Ohio             
+                DockerFileLocation: $(Agent.BuildDirectory)/webapp/param-web-app/param-web-app/Dockerfile
 
-  - stage: DeployStaging
-    displayName: Deploy to Staging Environment
-    jobs:
-    - deployment: DeployStg
-      variables:
-      - group: SecretsAndConfigDemoEnvironment-Stage 
-      environment: ssm-parameter-store-webapp-stg
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-            - checkout: self
-            - template: build/webappbuild.yml
-              parameters:
-                EcrRepository: $(EcrRepository)
-                BuildId: $(Build.BuildId)
-                region: $(AWS.Region)
-                AWSCredential: 'AWS-Dotnet-Ohio'                
-  - stage: DeployProduction
-    displayName: Deploy to Production Environment
-    jobs:
-    - deployment: DeployProd
-      variables:
-      - group: SecretsAndConfigDemoEnvironment-Prod
-      environment: ssm-parameter-store-webapp-prod
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-            - checkout: self
-            - template: build/webappbuild.yml
-              parameters:
-                EcrRepository: $(EcrRepository)
-                BuildId: $(Build.BuildId)
-                region: $(AWS.Region)
-                AWSCredential: 'AWS-Dotnet-Ohio'  
+  # - stage: DeployStaging 
+  #   displayName: Deploy to Staging Environment
+  #   jobs:
+  #   - deployment: DeployStg
+  #     variables:
+  #     - group: SecretsAndConfigDemoEnvironment-Stage 
+  #     environment: ssm-parameter-store-webapp-stg
+  #     strategy:
+  #       runOnce:
+  #         deploy:
+  #           steps:
+  #           - checkout: self              
+  #           - template: build/webappbuild.yml
+  #             parameters:
+  #               EcrRepository: $(EcrRepository)
+  #               BuildId: $(Build.BuildId)
+  #               region: $(AWS.Region)
+  #               AWSCredential: 'AWS-Dotnet-Ohio'                
+  # - stage: DeployProduction
+  #   displayName: Deploy to Production Environment
+  #   jobs:
+  #   - deployment: DeployProd
+  #     variables:
+  #     - group: SecretsAndConfigDemoEnvironment-Prod
+  #     environment: ssm-parameter-store-webapp-prod
+  #     strategy:
+  #       runOnce:
+  #         deploy:
+  #           steps:
+  #           - checkout: self
+  #           - template: build/webappbuild.yml
+  #             parameters:
+  #               EcrRepository: $(EcrRepository)
+  #               BuildId: $(Build.BuildId)
+  #               region: $(AWS.Region)
+  #               AWSCredential: 'AWS-Dotnet-Ohio'  
 
 
 
