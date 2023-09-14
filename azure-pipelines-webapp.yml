@@ -26,12 +26,12 @@ stages:
               path: webapp
             - checkout: BuildTemplates
               path: templates
-            - template: '$(Agent.BuildDirectory)/templates/build/webappbuild.yml'
+            - template: $(Agent.BuildDirectory)/templates/build/webappbuild.yml
               parameters:
                 EcrRepository: $(EcrRepository)
                 BuildId: $(Build.BuildId)
                 region: $(AWS.Region)
-                AWSCredential: 'AWS-Dotnet-Ohio             
+                AWSCredential: 'AWS-Dotnet-Ohio'             
                 DockerFileLocation: $(Agent.BuildDirectory)/webapp/param-web-app/param-web-app/Dockerfile
 
   # - stage: DeployStaging 
