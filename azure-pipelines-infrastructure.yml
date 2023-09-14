@@ -26,6 +26,9 @@ stages:
             steps:
             - checkout: self
               path: cdk
+            - task: CmdLine@2
+              inputs:
+                script: 'ls $(Agent.BuildDirectory)/cdk'
             - template: build/cdkdeploy.yml@PipelineTemplates
               parameters:
                 Environment: $(Environment)
