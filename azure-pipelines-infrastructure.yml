@@ -8,7 +8,7 @@ variables:
 
 resources:
   repositories:
-    - repository: BuildTemplates
+    - repository: PipelineTemplates
       type: git
       name: CDKProjects/PipelineTemplates
 
@@ -26,9 +26,7 @@ stages:
             steps:
             - checkout: self
               path: cdk
-            - checkout: BuildTemplates
-              path: templates
-            - template: $(Agent.BuildDirectory)/build/cdkdeploy.yml
+            - template: build/cdkdeploy.yml@PipelineTemplates
               parameters:
                 Environment: $(Environment)
                 EcrRepository: $(EcrRepository)
