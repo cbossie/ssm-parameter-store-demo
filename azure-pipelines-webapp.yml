@@ -22,11 +22,12 @@ stages:
         runOnce:
           deploy:
             steps:
+            - checkout: BuildTemplates
+              path: templates            
             - checkout: self
               path: webapp
-            - checkout: BuildTemplates
-              path: templates
             - template: $(Agent.BuildDirectory)/templates/build/webappbuild.yml
+
               parameters:
                 EcrRepository: $(EcrRepository)
                 BuildId: $(Build.BuildId)
