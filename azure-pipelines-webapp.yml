@@ -41,6 +41,7 @@ stages:
           deploy:
             steps:
             - checkout: self              
+              path: webapp
             - template: build/webappbuild.yml@PipelineTemplates
               parameters:
                 EcrRepository: $(EcrRepository)
@@ -60,6 +61,7 @@ stages:
           deploy:
             steps:
             - checkout: self
+              path: webapp
             - template: build/webappbuild.yml@PipelineTemplates
               parameters:
                 EcrRepository: $(EcrRepository)
